@@ -1,7 +1,7 @@
 {
-  "name": "obsidian-heading-markers",
+  "name": "obsidian-lapel",
   "version": "0.0.1",
-  "description": "Show markers next to your headings",
+  "description": "Dress up your editor with decorations that mark each of your headings 🤵",
   "author": "liamcain",
   "main": "main.js",
   "license": "MIT",

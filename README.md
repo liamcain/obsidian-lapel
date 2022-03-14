@@ -1,24 +1,23 @@
-# Heading Markers
+# Lapel 🤵
 
-Show the heading level in the gutter.
+Dress up your editor. **Lapel** shows a marker next to each heading to quickly distinguish between heading levels
 
-![heading-marker-screenshot](https://user-images.githubusercontent.com/693981/158234047-b86516a2-0961-43ef-bd21-adf51d2a52b1.png)
+![lapel-overview](https://user-images.githubusercontent.com/693981/158259622-e6d550d1-95ee-4fe4-82e7-490fe234b430.png)
 
 ## ⚙️ Features
 
-- Shows the heading level in the editor gutter (e.g. h1,h2,h3,..)
+- Shows the heading level in the editor gutter (e.g. h1, h2, h3, etc.)
 - Menu for quickly switching the heading level
 
 ## 💅 Customization
 
-Each marker type can be targeted separately with CSS for easy customization. For example, if you want all H6s to look like burger menus, simply change the heading marker:
+Each heading level can be targeted separately with CSS for easy customization. For example, if you want all H6s to look like burger menus, simply change the heading marker:
 
 ```css
 .cm-heading-marker[data-level="6"] {
   --heading-marker: "☰";
 }
 ```
-
 
 ## Say Thanks 🙏
 
