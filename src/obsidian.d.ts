@@ -9,6 +9,7 @@ declare module "obsidian" {
     readableLineLength: boolean;
     tabSize: number;
     showFrontmatter: boolean;
+    showLineNumber: boolean;
   }
 
   interface Vault {

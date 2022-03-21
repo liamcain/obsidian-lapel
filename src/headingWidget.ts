@@ -3,6 +3,7 @@ import { gutter, GutterMarker } from "@codemirror/gutter";
 import { App, editorLivePreviewField, Menu } from "obsidian";
 import { syntaxTree } from "@codemirror/language";
 import { RangeSet, RangeSetBuilder } from "@codemirror/rangeset";
+import { lineClassNodeProp } from "@codemirror/stream-parser";
 import { Prec } from "@codemirror/state";
 
 const headingLevels = [1, 2, 3, 4, 5, 6];
@@ -26,7 +27,7 @@ class HeadingMarker extends GutterMarker {
   }
 }
 
-export function headingMarkerPlugin(app: App) {
+export function headingMarkerPlugin(app: App, showBeforeLineNumbers: boolean) {
   const markers = ViewPlugin.fromClass(
     class {
       markers: RangeSet<HeadingMarker>;
@@ -39,7 +40,7 @@ export function headingMarkerPlugin(app: App) {
         const builder = new RangeSetBuilder<HeadingMarker>();
         syntaxTree(view.state).iterate({
           enter: (type, from, to) => {
-            const headingExp = /HyperMD-header_HyperMD-header-(\d)$/.exec(type.name);
+            const headingExp = /header-(\d)$/.exec(type.prop(lineClassNodeProp) ?? "");
             if (headingExp) {
               const headingLevel = Number(headingExp[1]);
               const d = new HeadingMarker(app, view, headingLevel, from, to);
@@ -61,10 +62,12 @@ export function headingMarkerPlugin(app: App) {
     }
   );
 
+  const gutterPrec = showBeforeLineNumbers ? Prec.high : Prec.low;
   return [
     markers,
-    Prec.high(
+    gutterPrec(
       gutter({
+        class: "cm-lapel",
         markers(view) {
           return view.plugin(markers)?.markers || RangeSet.empty;
         },

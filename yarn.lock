@@ -234,6 +234,16 @@
   dependencies:
     "@codemirror/text" "^0.19.0"
 
+"@codemirror/stream-parser@https://github.com/lishid/stream-parser":
+  version "0.19.6"
+  resolved "https://github.com/lishid/stream-parser#26c8edae7bdf63dc34d358d1de640bdd12e7b09f"
+  dependencies:
+    "@codemirror/language" "^0.19.0"
+    "@codemirror/state" "^0.19.0"
+    "@codemirror/text" "^0.19.0"
+    "@lezer/common" "^0.15.0"
+    "@lezer/lr" "^0.15.0"
+
 "@codemirror/text@^0.19.0", "@codemirror/text@^0.19.2", "@codemirror/text@^0.19.4", "@codemirror/text@^0.19.6":
   version "0.19.6"
   resolved "https://registry.yarnpkg.com/@codemirror/text/-/text-0.19.6.tgz#9adcbd8137f69b75518eacd30ddb16fd67bbac45"
