@@ -1,10 +1,7 @@
-import { EditorView, ViewPlugin, ViewUpdate } from "@codemirror/view";
-import { gutter, GutterMarker } from "@codemirror/gutter";
+import { EditorView, ViewPlugin, ViewUpdate, gutter, GutterMarker } from "@codemirror/view";
 import { App, editorLivePreviewField, Menu } from "obsidian";
-import { syntaxTree } from "@codemirror/language";
-import { RangeSet, RangeSetBuilder } from "@codemirror/rangeset";
-import { lineClassNodeProp } from "@codemirror/stream-parser";
-import { Prec } from "@codemirror/state";
+import { syntaxTree, lineClassNodeProp} from "@codemirror/language";
+import { Prec, RangeSet, RangeSetBuilder } from "@codemirror/state";
 
 const headingLevels = [1, 2, 3, 4, 5, 6];
 const MARKER_CSS_CLASS = "cm-heading-marker";
@@ -39,7 +36,7 @@ export function headingMarkerPlugin(app: App, showBeforeLineNumbers: boolean) {
       buildMarkers(app: App, view: EditorView) {
         const builder = new RangeSetBuilder<HeadingMarker>();
         syntaxTree(view.state).iterate({
-          enter: (type, from, to) => {
+          enter: ({type, from, to}) => {
             const headingExp = /header-(\d)$/.exec(type.prop(lineClassNodeProp) ?? "");
             if (headingExp) {
               const headingLevel = Number(headingExp[1]);
