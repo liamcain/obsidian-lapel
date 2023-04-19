@@ -69,7 +69,7 @@ export function headingMarkerPlugin(app: App, showBeforeLineNumbers: boolean) {
           return view.plugin(markers)?.markers || RangeSet.empty;
         },
         domEventHandlers: {
-          click: (view, line, event: Event) => {
+          click: (view, block, event: Event) => {
             if (
               event.target instanceof HTMLDivElement &&
               event.target.classList.contains(MARKER_CSS_CLASS)
@@ -81,8 +81,8 @@ export function headingMarkerPlugin(app: App, showBeforeLineNumbers: boolean) {
                     .setIcon("hash")
                     .setTitle(`Heading ${level}`)
                     .onClick(() => {
-                      const lineWithFormatting = view.state.doc.lineAt(line.from).text;
-                      const lineContents = lineWithFormatting.replace(/^#{1,6} /, "");
+                      const line = view.state.doc.lineAt(block.from);
+                      const lineContents = line.text.replace(/^#{1,6} /, "");
                       view.dispatch({
                         changes: {
                           from: line.from,
