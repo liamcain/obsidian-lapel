@@ -5,12 +5,12 @@ import { DEFAULT_SETTINGS, LapelSettings, LapelSettingsTab } from "./settings";
 
 export default class LapelPlugin extends Plugin {
   public settings: LapelSettings;
-  private cmExtension: Extension[];
+  private extensions: Extension[] = [];
 
   async onload(): Promise<void> {
     await this.loadSettings();
-    this.cmExtension = headingMarkerPlugin(this.app, this.settings.showBeforeLineNumbers);
-    this.registerEditorExtension([this.cmExtension]);
+    this.extensions.push(headingMarkerPlugin(this.settings.showBeforeLineNumbers));
+    this.registerEditorExtension(this.extensions);
     this.registerSettingsTab();
   }
 
@@ -28,8 +28,8 @@ export default class LapelPlugin extends Plugin {
     const changedSettings = tx(this.settings);
     const newSettings = Object.assign({}, this.settings, changedSettings);
     if (this.settings.showBeforeLineNumbers !== changedSettings.showBeforeLineNumbers) {
-      const updatedExt = headingMarkerPlugin(this.app, newSettings.showBeforeLineNumbers);
-      this.cmExtension[0] = updatedExt;
+      const updatedExt = headingMarkerPlugin(newSettings.showBeforeLineNumbers);
+      this.extensions[0] = updatedExt;
       this.app.workspace.updateOptions();
     }
 
