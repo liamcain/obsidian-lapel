@@ -1,6 +1,6 @@
 {
   "name": "obsidian-lapel",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Dress up your editor with decorations that mark each of your headings.",
   "author": "liamcain",
   "main": "main.js",
