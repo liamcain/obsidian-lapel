@@ -30,4 +30,8 @@ declare module "obsidian" {
     plugins: Record<string, InstalledPlugin>;
     getPluginById(id: string): InstalledPlugin;
   }
+
+  interface Menu {
+    setParentElement: (el: HTMLElement) => this;
+  }
 }

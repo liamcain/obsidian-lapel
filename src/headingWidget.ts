@@ -1,5 +1,5 @@
 import { EditorView, ViewPlugin, ViewUpdate, gutter, GutterMarker } from "@codemirror/view";
-import { App, editorLivePreviewField, Menu } from "obsidian";
+import { editorLivePreviewField, Menu } from "obsidian";
 import { syntaxTree, lineClassNodeProp} from "@codemirror/language";
 import { Prec, RangeSet, RangeSetBuilder } from "@codemirror/state";
 
@@ -8,7 +8,6 @@ const MARKER_CSS_CLASS = "cm-heading-marker";
 
 class HeadingMarker extends GutterMarker {
   constructor(
-    readonly app: App,
     readonly view: EditorView,
     readonly headingLevel: number,
     readonly from: number,
@@ -24,23 +23,25 @@ class HeadingMarker extends GutterMarker {
   }
 }
 
-export function headingMarkerPlugin(app: App, showBeforeLineNumbers: boolean) {
+export function headingMarkerPlugin(showBeforeLineNumbers: boolean) {
   const markers = ViewPlugin.fromClass(
     class {
+      view: EditorView;
       markers: RangeSet<HeadingMarker>;
 
-      constructor(public view: EditorView) {
-        this.markers = this.buildMarkers(app, view);
+      constructor(view: EditorView) {
+        this.view = view;
+        this.markers = this.buildMarkers(view);
       }
 
-      buildMarkers(app: App, view: EditorView) {
+      buildMarkers(view: EditorView) {
         const builder = new RangeSetBuilder<HeadingMarker>();
         syntaxTree(view.state).iterate({
           enter: ({type, from, to}) => {
             const headingExp = /header-(\d)$/.exec(type.prop(lineClassNodeProp) ?? "");
             if (headingExp) {
               const headingLevel = Number(headingExp[1]);
-              const d = new HeadingMarker(app, view, headingLevel, from, to);
+              const d = new HeadingMarker(view, headingLevel, from, to);
               builder.add(from, to, d);
             }
           },
@@ -50,11 +51,14 @@ export function headingMarkerPlugin(app: App, showBeforeLineNumbers: boolean) {
       }
 
       update(update: ViewUpdate) {
+        // Don't render if Live Preview is disabled
         if (!update.state.field(editorLivePreviewField)) {
           this.markers = RangeSet.empty;
-          return;
+          return this.markers;
         }
-        this.markers = this.buildMarkers(app, this.view);
+
+        this.markers = this.buildMarkers(this.view);
+        return this.markers;
       }
     }
   );
@@ -69,16 +73,17 @@ export function headingMarkerPlugin(app: App, showBeforeLineNumbers: boolean) {
           return view.plugin(markers)?.markers || RangeSet.empty;
         },
         domEventHandlers: {
-          click: (view, block, event: Event) => {
-            if (
-              event.target instanceof HTMLDivElement &&
-              event.target.classList.contains(MARKER_CSS_CLASS)
-            ) {
-              const menu = new Menu(this.app);
-              headingLevels.forEach((level) => {
+          click: (view, block, evt: MouseEvent) => {
+            if (evt.targetNode?.instanceOf(HTMLElement)) {
+              const el = evt.targetNode;
+              if (!el.hasClass(MARKER_CSS_CLASS)) return false;
+              if (el.hasClass('has-active-menu')) return true;
+
+              const menu = new Menu();
+              for (const level of headingLevels) {
                 menu.addItem((item) =>
                   item
-                    .setIcon("hash")
+                    .setIcon("lucide-heading-" + level)
                     .setTitle(`Heading ${level}`)
                     .onClick(() => {
                       const line = view.state.doc.lineAt(block.from);
@@ -92,18 +97,20 @@ export function headingMarkerPlugin(app: App, showBeforeLineNumbers: boolean) {
                       });
                     })
                 );
-              });
+              }
 
-              menu.showAtMouseEvent(event as MouseEvent);
+              menu
+                .setParentElement(el)
+                .showAtMouseEvent(event as MouseEvent);
               return true;
             }
             return false;
           },
-          mousedown: (_view, _line, event: Event) => {
-            return (
-              event.target instanceof HTMLDivElement &&
-              event.target.classList.contains(MARKER_CSS_CLASS)
-            );
+          mousedown: (_view, _line, evt: MouseEvent) => {
+            if (evt.targetNode?.instanceOf(HTMLElement)) {
+              return evt.targetNode.hasClass(MARKER_CSS_CLASS);
+            }
+            return false;
           },
         },
       })
