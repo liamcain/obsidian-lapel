@@ -10,7 +10,7 @@
 .cm-lapel {
   font-size: var(--font-smallest);
 	letter-spacing: 0.015em;
-  text-align: right;
+  text-align: end;
   width: 4ch;
 }
 
