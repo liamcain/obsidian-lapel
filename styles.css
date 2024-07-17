@@ -1,18 +1,19 @@
-.cm-heading-marker {
-  align-items: center;
-  color: var(--text-faint);
-  cursor: pointer;
-  display: inline-block;
-  font-size: 0.7rem;
-  letter-spacing: 0.25px;
-  min-width: 20px;
+.cm-lapel {
+  font-size: var(--font-smallest);
+	letter-spacing: 0.015em;
   text-align: right;
+  width: 3ch;
 }
 
+.cm-heading-marker {
+  cursor: var(--cursor);
+	color: var(--text-faint);
+	display: inline-block;
+}
+
+.cm-heading-marker.has-active-menu,
 .cm-heading-marker:hover {
-  color: var(--text-muted);
-  font-size: 0.7rem;
-  letter-spacing: 0.25px;
+  color: var(--text-accent-hover);
 }
 
 .cm-heading-marker[data-level="1"] {
