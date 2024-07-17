@@ -101,7 +101,7 @@ export function headingMarkerPlugin(showBeforeLineNumbers: boolean) {
 
               menu
                 .setParentElement(el)
-                .showAtMouseEvent(event as MouseEvent);
+                .showAtMouseEvent(evt);
               return true;
             }
             return false;

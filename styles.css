@@ -1,3 +1,12 @@
+/*
+  XXX: Hide gutters inside table cell editor
+  Remove this hack once there's a proper way to not register the editor extension
+  inside table cells.
+*/
+.table-cell-wrapper .cm-gutters {
+  display: none;
+}
+
 .cm-lapel {
   font-size: var(--font-smallest);
 	letter-spacing: 0.015em;
