@@ -21,6 +21,11 @@ class HeadingMarker extends GutterMarker {
     markerEl.dataset.level = String(this.headingLevel);
     return markerEl;
   }
+
+  // Prevent redrawing the same marker.
+  eq(other: HeadingMarker) {
+    return this.headingLevel === other.headingLevel;
+  }
 }
 
 export function headingMarkerPlugin(showBeforeLineNumbers: boolean) {
@@ -35,8 +40,12 @@ export function headingMarkerPlugin(showBeforeLineNumbers: boolean) {
       }
 
       buildMarkers(view: EditorView) {
+        // Only draw the markers inside the viewport.
+        const {viewport} = view;
         const builder = new RangeSetBuilder<HeadingMarker>();
         syntaxTree(view.state).iterate({
+          from: viewport.from,
+          to: viewport.to,
           enter: ({type, from, to}) => {
             const headingExp = /header-(\d)$/.exec(type.prop(lineClassNodeProp) ?? "");
             if (headingExp) {
@@ -54,11 +63,12 @@ export function headingMarkerPlugin(showBeforeLineNumbers: boolean) {
         // Don't render if Live Preview is disabled
         if (!update.state.field(editorLivePreviewField)) {
           this.markers = RangeSet.empty;
-          return this.markers;
         }
 
-        this.markers = this.buildMarkers(this.view);
-        return this.markers;
+        // Rebulid only when the document or the viewport was changed.
+        if (update.docChanged || update.viewportChanged) {
+          this.markers = this.buildMarkers(this.view);
+        }
       }
     }
   );
