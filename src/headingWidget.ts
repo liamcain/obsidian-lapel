@@ -63,6 +63,7 @@ export function headingMarkerPlugin(showBeforeLineNumbers: boolean) {
         // Don't render if Live Preview is disabled
         if (!update.state.field(editorLivePreviewField)) {
           this.markers = RangeSet.empty;
+          return;
         }
 
         // Rebulid only when the document or the viewport was changed.
