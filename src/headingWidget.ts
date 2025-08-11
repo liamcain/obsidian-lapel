@@ -90,12 +90,18 @@ export function headingMarkerPlugin(showBeforeLineNumbers: boolean) {
               if (!el.hasClass(MARKER_CSS_CLASS)) return false;
               if (el.hasClass('has-active-menu')) return true;
 
+              let currentLevel = 0;
+              view.plugin(markers)?.markers.between(block.from, block.to, (_f, _t, value) => {
+                currentLevel = value.headingLevel;
+              });
+
               const menu = new Menu();
               for (const level of headingLevels) {
                 menu.addItem((item) =>
                   item
                     .setIcon("lucide-heading-" + level)
                     .setTitle(`Heading ${level}`)
+                    .setChecked(level === currentLevel)
                     .onClick(() => {
                       const line = view.state.doc.lineAt(block.from);
                       const lineContents = line.text.replace(/^#{1,6} /, "");
