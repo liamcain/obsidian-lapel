@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "eslint . --ext .ts",
     "dev": "node esbuild.config.mjs",
-    "build": "yarn run lint && node esbuild.config.mjs production"
+    "build": "pnpm run lint && node esbuild.config.mjs production"
   },
   "devDependencies": {
     "@codemirror/state": "6.4.1",
