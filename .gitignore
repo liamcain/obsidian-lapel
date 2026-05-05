@@ -6,3 +6,4 @@ main.js
 *.code-workspace
 .DS_Store
 .idea/
+.env
