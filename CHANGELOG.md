@@ -1,6 +1,8 @@
 # Changelog
 
-All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [0.1.10](https://github.com/liamcain/obsidian-lapel/compare/0.1.9...0.1.10) (2026-05-12)
 
 ### [0.1.9](https://github.com/liamcain/obsidian-lapel/compare/0.1.8...0.1.9) (2026-05-12)
 
