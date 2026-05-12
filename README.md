@@ -1,15 +1,15 @@
-# Lapel 🤵
+# Lapel
 
-Dress up your editor. **Lapel** shows a marker next to each heading to quickly distinguish between heading levels
+Dress up your editor. **Lapel** shows a marker next to each heading to quickly distinguish between heading levels.
 
 ![lapel-overview](https://user-images.githubusercontent.com/693981/158259622-e6d550d1-95ee-4fe4-82e7-490fe234b430.png)
 
-## ⚙️ Features
+## ️Features
 
 - Shows the heading level in the editor gutter (e.g. h1, h2, h3, etc.)
-- Menu for quickly switching the heading level
+- Menu for quickly switching the heading level.
 
-## 💅 Customization
+## Customization
 
 Each heading level can be targeted separately with CSS for easy customization. For example, if you want all H6s to look like burger menus, simply change the heading marker:
 
@@ -18,6 +18,11 @@ Each heading level can be targeted separately with CSS for easy customization. F
   --heading-marker: "☰";
 }
 ```
+
+## Settings
+
+- **Show before line numbers:** By default, heading levels are displayed after the line number in the editor gutter. Enable this to swap the ordering.
+- **Show in source mode:** Optionally show the heading levels in source mode.
 
 ## Say Thanks 🙏
 
