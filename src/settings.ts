@@ -1,5 +1,5 @@
 import { App, PluginSettingTab, Setting } from "obsidian";
-import LapelPlugin from "src";
+import LapelPlugin from "./index";
 
 export interface LapelSettings {
   showBeforeLineNumbers: boolean;
