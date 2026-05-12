@@ -126,6 +126,22 @@ export function headingMarkerPlugin(opts: HeadingMarkerPluginOpts) {
                     })
                 );
               }
+              menu.addItem((item) =>
+                item
+                  .setIcon("lucide-text")
+                  .setTitle("Body")
+                  .onClick(() => {
+                    const line = view.state.doc.lineAt(block.from);
+                    const lineContents = line.text.replace(/^#{1,6} /, "");
+                    view.dispatch({
+                      changes: {
+                        from: line.from,
+                        to: line.to,
+                        insert: lineContents,
+                      },
+                    });
+                  })
+              );
 
               menu
                 .setParentElement(el)
