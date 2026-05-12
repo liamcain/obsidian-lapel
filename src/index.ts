@@ -15,7 +15,8 @@ export default class LapelPlugin extends Plugin {
   }
 
   async loadSettings() {
-    this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    const data = (await this.loadData()) as LapelSettings | null;
+    this.settings = { ...DEFAULT_SETTINGS, ...data };
   }
 
   private registerSettingsTab() {

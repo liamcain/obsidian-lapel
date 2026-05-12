@@ -21,7 +21,6 @@ export class LapelSettingsTab extends PluginSettingTab {
     const { containerEl } = this;
 
     containerEl.empty();
-    containerEl.createEl("h3", { text: "Appearance" });
 
     new Setting(containerEl)
       .setName("Show before line numbers")
@@ -32,7 +31,7 @@ export class LapelSettingsTab extends PluginSettingTab {
         toggle
           .setValue(this.plugin.settings.showBeforeLineNumbers)
           .onChange(async (value) => {
-            this.plugin.updateSettings(() => ({
+            void this.plugin.updateSettings(() => ({
               showBeforeLineNumbers: value,
             }));
           })

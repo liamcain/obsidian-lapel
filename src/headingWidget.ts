@@ -62,7 +62,7 @@ export function headingMarkerPlugin(showBeforeLineNumbers: boolean) {
       update(update: ViewUpdate) {
         // Don't render if Live Preview is disabled
         if (!update.state.field(editorLivePreviewField)) {
-          this.markers = RangeSet.empty;
+          this.markers = RangeSet.empty as RangeSet<HeadingMarker>;
           return;
         }
 
@@ -84,7 +84,8 @@ export function headingMarkerPlugin(showBeforeLineNumbers: boolean) {
           return view.plugin(markers)?.markers || RangeSet.empty;
         },
         domEventHandlers: {
-          click: (view, block, evt: MouseEvent) => {
+          click: (view, block, evt) => {
+            if (!(evt instanceof MouseEvent)) return false;
             if (evt.targetNode?.instanceOf(HTMLElement)) {
               const el = evt.targetNode;
               if (!el.hasClass(MARKER_CSS_CLASS)) return false;
@@ -123,7 +124,8 @@ export function headingMarkerPlugin(showBeforeLineNumbers: boolean) {
             }
             return false;
           },
-          mousedown: (_view, _line, evt: MouseEvent) => {
+          mousedown: (_view, _line, evt) => {
+            if (!(evt instanceof MouseEvent)) return false;
             if (evt.targetNode?.instanceOf(HTMLElement)) {
               return evt.targetNode.hasClass(MARKER_CSS_CLASS);
             }

@@ -9,7 +9,7 @@
     "node": ">=22.9.0"
   },
   "scripts": {
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint .",
     "dev": "node esbuild.config.mjs",
     "build": "pnpm run lint && node esbuild.config.mjs production",
     "build:local": "node --env-file-if-exists=.env scripts/build-local.mjs"
@@ -18,13 +18,16 @@
     "@codemirror/state": "6.5.0",
     "@codemirror/language": "https://github.com/lishid/cm-language",
     "@codemirror/view": "6.38.6",
+    "@eslint/js": "9.30.1",
     "@types/node": "^16.11.6",
-    "@typescript-eslint/eslint-plugin": "5.13.0",
-    "@typescript-eslint/parser": "5.13.0",
     "esbuild": "^0.14.45",
-    "eslint": "8.3.0",
+    "eslint": "9.30.1",
+    "eslint-plugin-obsidianmd": "0.2.9",
+    "globals": "14.0.0",
+    "jiti": "2.6.1",
     "obsidian": "latest",
     "tslib": "2.5.0",
-    "typescript": "5.6.3"
+    "typescript": "5.6.3",
+    "typescript-eslint": "8.35.1"
   }
 }
