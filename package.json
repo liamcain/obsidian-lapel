@@ -12,7 +12,21 @@
     "lint": "eslint .",
     "dev": "node esbuild.config.mjs",
     "build": "pnpm run lint && node esbuild.config.mjs production",
-    "build:local": "node --env-file-if-exists=.env scripts/build-local.mjs"
+    "build:local": "node --env-file-if-exists=.env scripts/build-local.mjs",
+    "release": "standard-version"
+  },
+  "standard-version": {
+    "t": "",
+    "bumpFiles": [
+      {
+        "filename": "package.json",
+        "type": "json"
+      },
+      {
+        "filename": "manifest.json",
+        "type": "json"
+      }
+    ]
   },
   "devDependencies": {
     "@codemirror/state": "6.5.0",
@@ -26,6 +40,7 @@
     "globals": "14.0.0",
     "jiti": "2.6.1",
     "obsidian": "latest",
+    "standard-version": "^9.3.2",
     "tslib": "2.5.0",
     "typescript": "5.6.3",
     "typescript-eslint": "8.35.1"
