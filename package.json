@@ -12,7 +12,7 @@
     "lint": "eslint . --ext .ts",
     "dev": "node esbuild.config.mjs",
     "build": "pnpm run lint && node esbuild.config.mjs production",
-    "build:local": "node scripts/build-local.mjs"
+    "build:local": "node --env-file-if-exists=.env scripts/build-local.mjs"
   },
   "devDependencies": {
     "@codemirror/state": "6.5.0",
