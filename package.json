@@ -5,6 +5,9 @@
   "author": "liamcain",
   "main": "main.js",
   "license": "MIT",
+  "engines": {
+    "node": ">=22.9.0"
+  },
   "scripts": {
     "lint": "eslint . --ext .ts",
     "dev": "node esbuild.config.mjs",
