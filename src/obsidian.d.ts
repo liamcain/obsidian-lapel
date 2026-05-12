@@ -13,6 +13,7 @@ declare module "obsidian" {
   }
 
   interface Vault {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     config: Record<string, any>;
     getConfig<T extends keyof VaultSettings>(setting: T): VaultSettings[T];
   }
