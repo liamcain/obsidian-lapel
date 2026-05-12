@@ -5,6 +5,7 @@
   "author": "liamcain",
   "main": "main.js",
   "license": "MIT",
+  "packageManager": "pnpm@10.22.0",
   "engines": {
     "node": ">=22.9.0"
   },
@@ -12,6 +13,7 @@
     "lint": "eslint .",
     "dev": "node esbuild.config.mjs",
     "build": "pnpm run lint && node esbuild.config.mjs production",
+    "build:ci": "node esbuild.config.mjs production",
     "build:local": "node --env-file-if-exists=.env scripts/build-local.mjs",
     "release": "standard-version"
   },
