@@ -28,7 +28,12 @@ class HeadingMarker extends GutterMarker {
   }
 }
 
-export function headingMarkerPlugin(showBeforeLineNumbers: boolean) {
+interface HeadingMarkerPluginOpts {
+  showBeforeLineNumbers: boolean;
+  showInSourceMode: boolean;
+}
+
+export function headingMarkerPlugin(opts: HeadingMarkerPluginOpts) {
   const markers = ViewPlugin.fromClass(
     class {
       view: EditorView;
@@ -36,7 +41,13 @@ export function headingMarkerPlugin(showBeforeLineNumbers: boolean) {
 
       constructor(view: EditorView) {
         this.view = view;
-        this.markers = this.buildMarkers(view);
+        this.markers = this.shouldRender(view)
+          ? this.buildMarkers(view)
+          : RangeSet.empty as RangeSet<HeadingMarker>;
+      }
+
+      shouldRender(view: EditorView) {
+        return opts.showInSourceMode || view.state.field(editorLivePreviewField);
       }
 
       buildMarkers(view: EditorView) {
@@ -60,13 +71,12 @@ export function headingMarkerPlugin(showBeforeLineNumbers: boolean) {
       }
 
       update(update: ViewUpdate) {
-        // Don't render if Live Preview is disabled
-        if (!update.state.field(editorLivePreviewField)) {
+        if (!this.shouldRender(update.view)) {
           this.markers = RangeSet.empty as RangeSet<HeadingMarker>;
           return;
         }
 
-        // Rebulid only when the document or the viewport was changed.
+        // Rebuild only when the document or the viewport was changed.
         if (update.docChanged || update.viewportChanged) {
           this.markers = this.buildMarkers(this.view);
         }
@@ -74,7 +84,7 @@ export function headingMarkerPlugin(showBeforeLineNumbers: boolean) {
     }
   );
 
-  const gutterPrec = showBeforeLineNumbers ? Prec.high : Prec.low;
+  const gutterPrec = opts.showBeforeLineNumbers ? Prec.high : Prec.low;
   return [
     markers,
     gutterPrec(

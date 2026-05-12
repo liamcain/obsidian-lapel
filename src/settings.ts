@@ -3,10 +3,12 @@ import LapelPlugin from "./index";
 
 export interface LapelSettings {
   showBeforeLineNumbers: boolean;
+  showInSourceMode: boolean;
 }
 
 export const DEFAULT_SETTINGS: LapelSettings = {
   showBeforeLineNumbers: true,
+  showInSourceMode: false,
 };
 
 export class LapelSettingsTab extends PluginSettingTab {
@@ -33,6 +35,21 @@ export class LapelSettingsTab extends PluginSettingTab {
           .onChange(async (value) => {
             void this.plugin.updateSettings(() => ({
               showBeforeLineNumbers: value,
+            }));
+          })
+      );
+
+    new Setting(containerEl)
+      .setName("Show in source mode")
+      .setDesc(
+        "Toggle whether the heading markers are shown in in source mode."
+      )
+      .addToggle((toggle) =>
+        toggle
+          .setValue(this.plugin.settings.showInSourceMode)
+          .onChange(async (value) => {
+            void this.plugin.updateSettings(() => ({
+              showInSourceMode: value,
             }));
           })
       );
