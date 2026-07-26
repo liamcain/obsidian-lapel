@@ -34,40 +34,32 @@ export class LapelSettingsTab extends PluginSettingTab {
       {
         name: "Show before line numbers",
         desc: "Toggle whether the heading markers are shown before or after the line numbers in the gutter.",
-        control: {
-          type: "toggle",
-          key: "showBeforeLineNumbers",
-          defaultValue: DEFAULT_SETTINGS.showBeforeLineNumbers,
-        },
+        render: (setting) =>
+          setting.addToggle((toggle) =>
+            toggle
+              .setValue(this.plugin.settings.showBeforeLineNumbers)
+              .onChange(async (value) => {
+                await this.plugin.updateSettings(() => ({
+                  showBeforeLineNumbers: value,
+                }));
+              })
+          ),
       },
       {
         name: "Show in source mode",
         desc: "Toggle whether the heading markers are shown in in source mode.",
-        control: {
-          type: "toggle",
-          key: "showInSourceMode",
-          defaultValue: DEFAULT_SETTINGS.showInSourceMode,
-        },
+        render: (setting) =>
+          setting.addToggle((toggle) =>
+            toggle
+              .setValue(this.plugin.settings.showInSourceMode)
+              .onChange(async (value) => {
+                await this.plugin.updateSettings(() => ({
+                  showInSourceMode: value,
+                }));
+              })
+          ),
       },
     ];
-  }
-
-  async setControlValue(key: string, value: unknown): Promise<void> {
-    if (key === "showBeforeLineNumbers") {
-      await this.plugin.updateSettings(() => ({
-        showBeforeLineNumbers: value as boolean,
-      }));
-      return;
-    }
-
-    if (key === "showInSourceMode") {
-      await this.plugin.updateSettings(() => ({
-        showInSourceMode: value as boolean,
-      }));
-      return;
-    }
-
-    throw new Error(`Unknown Lapel setting key: ${key}`);
   }
 
   display(): void {
