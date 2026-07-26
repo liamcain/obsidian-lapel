@@ -1,4 +1,10 @@
-import { App, PluginSettingTab, Setting } from "obsidian";
+import {
+  App,
+  PluginSettingTab,
+  Setting,
+  requireApiVersion,
+  type SettingDefinitionItem,
+} from "obsidian";
 import LapelPlugin from "./index";
 
 export interface LapelSettings {
@@ -17,6 +23,43 @@ export class LapelSettingsTab extends PluginSettingTab {
   constructor(app: App, plugin: LapelPlugin) {
     super(app, plugin);
     this.plugin = plugin;
+  }
+
+  getSettingDefinitions(): SettingDefinitionItem[] {
+    if (!requireApiVersion("1.13.0")) {
+      return [];
+    }
+
+    return [
+      {
+        name: "Show before line numbers",
+        desc: "Toggle whether the heading markers are shown before or after the line numbers in the gutter.",
+        render: (setting) =>
+          setting.addToggle((toggle) =>
+            toggle
+              .setValue(this.plugin.settings.showBeforeLineNumbers)
+              .onChange(async (value) => {
+                await this.plugin.updateSettings(() => ({
+                  showBeforeLineNumbers: value,
+                }));
+              })
+          ),
+      },
+      {
+        name: "Show in source mode",
+        desc: "Toggle whether the heading markers are shown in in source mode.",
+        render: (setting) =>
+          setting.addToggle((toggle) =>
+            toggle
+              .setValue(this.plugin.settings.showInSourceMode)
+              .onChange(async (value) => {
+                await this.plugin.updateSettings(() => ({
+                  showInSourceMode: value,
+                }));
+              })
+          ),
+      },
+    ];
   }
 
   display(): void {

@@ -41,7 +41,7 @@
     "eslint-plugin-obsidianmd": "0.2.9",
     "globals": "14.0.0",
     "jiti": "2.6.1",
-    "obsidian": "latest",
+    "obsidian": "^1.13.0",
     "commit-and-tag-version": "^12.7.3",
     "tslib": "2.5.0",
     "typescript": "5.6.3",
